@@ -1,0 +1,66 @@
+#include<iostream>
+
+using std::cin;
+using std::endl;
+using std::cout;
+struct Node
+{
+	int value;
+	Node* pLeft;
+	Node* pRight;
+};
+Node* insertToTree(Node* phead, int v);
+void print(Node* phead);
+int main()
+{
+	Node* phead = new Node;
+	phead->pLeft = NULL;
+	phead->pRight = NULL;
+	int v;
+	cin >> v;
+	phead->value = v;
+	cin >> v;
+	while (v>0) {
+		phead = insertToTree(phead, v);
+		cin >> v;
+	}
+	print(phead);
+	return 0;
+}
+void print(Node* phead)
+{
+	if (phead != NULL) {
+		print(phead->pLeft);
+		cout << phead->value;
+		print(phead->pRight);
+	}
+}
+Node* insertToTree(Node* phead, int v) {
+	Node* p2 = new Node;
+	Node* p = phead;
+	if (v < p->value) {
+		if (p->pLeft == NULL) {
+			p2->value = v;
+			p->pLeft = p2;
+			p2->pLeft = NULL;
+			p2->pRight = NULL;
+		}
+		else if (p->pLeft != NULL) {
+			p = p->pLeft;
+			insertToTree(p, v);
+		}
+	}
+	else if (v >= p->value) {
+		if (p->pRight == NULL) {
+			p2->value = v;
+			p->pRight = p2;
+			p2->pLeft = NULL;
+			p2->pRight = NULL;
+		}
+		else if (p->pRight != NULL) {
+			p = p->pRight;
+			insertToTree(p, v);
+		}
+	}
+	return phead;
+}
